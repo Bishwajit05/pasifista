@@ -1,23 +1,26 @@
 "use client";
+
+import React, { useState } from "react";
+import { useForm } from "react-hook-form";
+import { useRouter } from "next/navigation";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { ChatCompletionRequestMessage } from "openai";
+
 import * as z from "zod";
 import axios from "axios";
-import Heading from "@/components/heading";
-import { MessageSquare } from "lucide-react";
-import React, { useState } from "react";
-import { useRouter } from "next/navigation";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
 
+import { cn } from "@/lib/utils";
+import Empty from "@/components/empty";
 import { formSchema } from "./constants";
-import { Form, FormControl, FormField, FormItem } from "@/components/ui/form";
+import Loader from "@/components/loader";
+import Heading from "@/components/heading";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { ChatCompletionRequestMessage } from "openai";
-import Empty from "@/components/empty";
-import Loader from "@/components/loader";
-import { cn } from "@/lib/utils";
-import UserAvatar from "@/components/user-avatar";
 import BotAvatar from "@/components/bot-avatar";
+import UserAvatar from "@/components/user-avatar";
+import { Form, FormControl, FormField, FormItem } from "@/components/ui/form";
+
+import { MessageSquare } from "lucide-react";
 
 const ConversationPage = () => {
   const router = useRouter();
@@ -114,10 +117,7 @@ const ConversationPage = () => {
                 )}
               >
                 {message.role === "user" ? <UserAvatar /> : <BotAvatar />}
-                <p className="text-sm">
-
-                {message.content}
-                </p>
+                <p className="text-sm">{message.content}</p>
               </div>
             ))}
           </div>
